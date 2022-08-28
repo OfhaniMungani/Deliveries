@@ -1,0 +1,7 @@
+{
+  "name": "Deliveries",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
