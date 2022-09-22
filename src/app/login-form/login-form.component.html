@@ -1,0 +1,31 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>Natuurlike Delivery App</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	
+    <ion-card class="box"*ngIf="!isLoading" >
+      <ion-card-header>
+        <ion-card-title>Log in</ion-card-title>
+      </ion-card-header>
+      <form class="form" [formGroup]="loginFormGroup">
+        <ion-card-content>
+          <ion-item class="full-width">
+            <ion-label>Email</ion-label>
+            <input matInput placeholder="Enter the User's Email address" formControlName="email">
+          </ion-item>
+          <ion-item class="full-width">
+            <ion-label>Password</ion-label>
+            <input type="password" matInput placeholder="Enter the User's Password" formControlName="password">
+          </ion-item>
+        </ion-card-content>
+        <ion-button mat-stroked-button color="primary" class="btn-block" (click)="Login(loginFormGroup)">Log in</ion-button>
+        
+      </form>
+    </ion-card>
+    <ion-spinner mode="indeterminate" value="50" *ngIf="isLoading">
+    </ion-spinner>
+	
+</ion-content>
