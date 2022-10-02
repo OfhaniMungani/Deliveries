@@ -9,6 +9,7 @@ export interface Orders {
     suburb:string;
     date:Date;
   PhoneNumber:number;
+  img:string;
   }
   export interface Deliver {
     DeliveriesV:Orders[]

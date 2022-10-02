@@ -24,12 +24,16 @@
     <ion-card-content>
       <ion-label position="stacked">Delivery Address:</ion-label>
       {{product.country}} {{product.province}} {{product.city}} {{product.suburb}} {{product.streetAddress}}
+      
         <ion-item class="task">
          
+         
           <ion-label class="tasks" position="stacked">Complete Task</ion-label>
-        
+          
         </ion-item>
-    
+        <img  src="{{userImg}}">
+        <ion-button color="primary" (click)="openGallery()"><ion-icon slot="start" name="images"></ion-icon></ion-button>
+        <ion-button color="primary" (click)="openCamera()"><ion-icon slot="start" name="camera"></ion-icon></ion-button>
         <ion-button class="cartButton" color="primary" (click)="createOrder(product)"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
     </ion-card-content>
   </ion-card>

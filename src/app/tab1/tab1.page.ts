@@ -1,10 +1,15 @@
-import { ToastController } from '@ionic/angular';
+import {LoadingController, Platform,ToastController } from '@ionic/angular';
 import { MainService } from './../main.service';
 import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Orders,Deliver } from '../models/order';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { finalize } from 'rxjs/operators';
+
+const IMAGE_DIR = 'stored-images';
 
 @Component({
   selector: 'app-tab1',
@@ -15,33 +20,50 @@ export class Tab1Page implements OnInit{
   productForm!: FormGroup;
   orders:any[]=[];
   basketList!: any;
-  clickedImage: string;
-
-  options: CameraOptions = {
-    quality: 30,
+  userImg: any = '';
+  base64Img = '';
+ 
+  cameraOptions: CameraOptions = {
+    quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE}
+    mediaType: this.camera.MediaType.PICTURE,
+    allowEdit: true
+   }
+   gelleryOptions: CameraOptions = {
+    quality: 100,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    allowEdit: true
+    }
   @ViewChild('quantity', {static: true}) quantityElement: ElementRef;
-  constructor(private router: Router, private service: MainService, private toastCtrl:ToastController,private camera: Camera) {}
+  constructor(private loadingCtrl: LoadingController,private plt: Platform,private router: Router, private service: MainService, private toastCtrl:ToastController,private camera: Camera) {}
 
   ngOnInit(){
 
-    
+    this.userImg = 'assets/imgs/logo.png';
     this.CompileOrders();
-    this.captureImage()
+   
   }
-  captureImage() {
-    this.camera.getPicture(this.options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.clickedImage = base64Image;
+  openCamera() {
+    this.camera.getPicture(this.cameraOptions).then((imgData) => {
+    console.log('image data =>  ', imgData);
+    this.base64Img = 'data:image/jpeg;base64,' + imgData;
+    this.userImg = this.base64Img;
     }, (err) => {
-      console.log(err);
-      // Handle error
-    });
-  }
+    console.log(err);
+    })
+   }
+   
+    openGallery() {
+      this.camera.getPicture(this.gelleryOptions).then((imgData) => {
+       console.log('image data =>  ', imgData);
+       this.base64Img = 'data:image/jpeg;base64,' + imgData;
+       this.userImg = this.base64Img;
+       }, (err) => {
+       console.log(err);
+       })
+      }
   CompileOrders()
   {
     this.service.getProducts().subscribe(result => {
@@ -56,7 +78,7 @@ export class Tab1Page implements OnInit{
   createOrder(product: Orders){
     const Deliveries  = {
       ...product,
-    //  Quantity: parseInt((<HTMLInputElement>document.getElementById("quantity("+ product.id + ")")).value)
+      img: this.userImg
     };
     this.basketList = JSON.parse(localStorage.getItem('basket'));
     if(this.basketList == null){
@@ -103,5 +125,10 @@ const deliver:Deliver={
     this.orders.splice(this.orders.indexOf(item),1);
     //localStorage.setItem('basket',JSON.stringify(this.basketList));
   }
+
+  
+
+	
+
 }
 

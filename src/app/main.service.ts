@@ -9,7 +9,7 @@ import { LoginUser } from './models/LoginUser';
 export class MainService {
 
   private readonly apiUrl = 'https://Localhost:7056/api/';
-
+  private readonly ExApiUrl = 'https://cors-anywhere.herokuapp.com/http://196.248.77.125:7056/api/';
   httpOptions = {
     headers: new HttpHeaders({
       ContentType: 'application/json',
