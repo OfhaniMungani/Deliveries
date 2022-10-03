@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>
       Orders To Deliver
     </ion-title>
@@ -7,34 +7,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large"> Natuutrlik</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-card *ngFor="let product of orders">
     <ion-card-header>
-      <ion-card-title>Order# {{product.id}}</ion-card-title>
-      <ion-card-subtitle> Name: {{product.firstName}} Surname: {{product.surname}}  </ion-card-subtitle>
-      <ion-card-subtitle> PhoneNumber: {{product.phoneNumber}}  </ion-card-subtitle>
-      <ion-card-subtitle> OrderDate: {{product.date}}   </ion-card-subtitle>
+      <ion-card-title class="title">Order# {{product.id}}</ion-card-title>
+      <ion-card-subtitle> Name: {{product.firstName}} {{product.surname}}  </ion-card-subtitle>
+      <ion-card-subtitle> Phone Number: {{product.phoneNumber}}  </ion-card-subtitle>
+      <ion-card-subtitle> Order Date: {{product.date}}   </ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-label position="stacked">Delivery Address:</ion-label>
-      {{product.country}} {{product.province}} {{product.city}} {{product.suburb}} {{product.streetAddress}}
-      
-        <ion-item class="task">
-         
-         
-          <ion-label class="tasks" position="stacked">Complete Task</ion-label>
-          
-        </ion-item>
+      <ion-card-subtitle position="stacked">Delivery Address:</ion-card-subtitle>
+      {{product.streetAddress}} <br> 
+      {{product.suburb}} <br> 
+      {{product.city}} <br> 
+      {{product.province}} <br> 
+      {{product.country}} 
+    
+      <ion-card-subtitle class="complete">Complete Delivery</ion-card-subtitle>
+
         <img  src="{{userImg}}">
-        <ion-button color="primary" (click)="openGallery()"><ion-icon slot="start" name="images"></ion-icon></ion-button>
-        <ion-button color="primary" (click)="openCamera()"><ion-icon slot="start" name="camera"></ion-icon></ion-button>
-        <ion-button class="cartButton" color="primary" (click)="createOrder(product)"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
+        <ion-button color="secondary" (click)="openGallery()"><ion-icon name="images"></ion-icon></ion-button>
+        <ion-button color="primary" (click)="openCamera()"><ion-icon name="camera"></ion-icon></ion-button>
+        <ion-button class="cartButton" color="success" (click)="createOrder(product)"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
     </ion-card-content>
   </ion-card>
 
