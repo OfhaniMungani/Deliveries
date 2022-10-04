@@ -17,6 +17,7 @@ import { LoginUser,Response } from '../models/LoginUser';
 })
 export class LoginFormComponent implements OnInit {
  reponse: Response
+ isSubmitted = false;
   loginFormGroup: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -26,9 +27,13 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private router: Router, private dataService: MainService, private toastCtrl:ToastController, private fb: FormBuilder) { }
 
-  
+  get errorControl() {
+    return this.loginFormGroup.controls;
+  }
+
 
   Login = ( form: FormGroup) => {
+    this.isSubmitted = true;
     if(form.valid)
     {
       this.dataService.LoginUser(this.loginFormGroup.value).subscribe((data) => {
@@ -111,6 +116,8 @@ export class LoginFormComponent implements OnInit {
         
       )
     }
+  
+
   }
   ngOnInit(): void {
   }

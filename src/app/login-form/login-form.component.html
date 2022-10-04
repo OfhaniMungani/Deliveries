@@ -5,25 +5,36 @@
 </ion-header> 
 
 <ion-content>
-    <ion-card class="box"*ngIf="!isLoading" >
+    <ion-card class="box">
       <ion-card-header>
         <ion-card-title>Natuurlik Delivery App</ion-card-title>
         <ion-icon name="car-outline" class="icon"></ion-icon>
       </ion-card-header>
-      <form class="form" [formGroup]="loginFormGroup">
+      <form class="form" [formGroup]="loginFormGroup"novalidate>
         <ion-card-content>
           <ion-item>
             <ion-label position="stacked">Email <span class="required-asterisk">*</span></ion-label>
-            <ion-input placeholder="Enter the User's Email address" formControlName="email"></ion-input>
+            <ion-input type ="email"placeholder="Enter the User's Email address" formControlName="email"></ion-input>
           </ion-item>
+          <span class="error" *ngIf="isSubmitted && errorControl.password.errors?.required">
+            Email is required
+          </span>
+          <div class="error">
+            <div *ngIf="loginFormGroup.get('email').hasError('required') && loginFormGroup.get('email').dirty">Please enter email address
+            </div>
+            <div *ngIf="loginFormGroup.get('email').hasError('email') && loginFormGroup.get('email').dirty">
+              Please enter valid email address</div>
+          </div>
           <ion-item>
             <ion-label position="stacked">Password <span class="required-asterisk">*</span></ion-label>
             <ion-input type="password" Input placeholder="Enter the User's Password" formControlName="password"></ion-input>
           </ion-item>
+          <span class="error" *ngIf="isSubmitted && errorControl.password.errors?.required">
+            Password is required
+          </span>
         </ion-card-content>
         <ion-button mat-stroked-button color="dark" class="btn-block space" (click)="Login(loginFormGroup)">Login</ion-button>       
       </form>
     </ion-card>
-    <ion-spinner mode="indeterminate" value="50" *ngIf="isLoading">
-    </ion-spinner>
+   
 </ion-content>
